@@ -11,7 +11,6 @@ namespace QuanLyBanHang
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
-            // Đăng ký sự kiện
             this.Load += Form4_Load;
             this.btnAddIteam.Click += btnAddIteam_Click;
             this.btnUpIteam.Click += btnUpIteam_Click;
@@ -19,7 +18,6 @@ namespace QuanLyBanHang
             this.dataGridView1.CellClick += dataGridView1_CellClick;
         }
 
-        // 1. Tải danh sách hàng từ Database lên bảng
         private void Form4_Load(object sender, EventArgs e)
         {
             TaiDuLieuLenBang();
@@ -35,7 +33,6 @@ namespace QuanLyBanHang
                     var listHang = db.MatHangs.ToList();
                     foreach (var item in listHang)
                     {
-                        // Thêm vào DataGridView: Mã, Tên, Giá, Số lượng
                         dataGridView1.Rows.Add(item.MaMH, item.TenMH, item.GiaBan, item.SoLuongTon);
                     }
                 }
@@ -43,14 +40,12 @@ namespace QuanLyBanHang
             catch (Exception ex) { MessageBox.Show("Lỗi tải dữ liệu: " + ex.Message); }
         }
 
-        // 2. Thêm món hàng mới
         private void btnAddIteam_Click(object sender, EventArgs e)
         {
             try
             {
                 using (var db = new QuanLyBanHangContext())
                 {
-                    // Kiểm tra trùng mã
                     if (db.MatHangs.Any(m => m.MaMH == txtIdIteam.Text))
                     {
                         MessageBox.Show("Mã hàng này đã tồn tại!");
@@ -63,21 +58,20 @@ namespace QuanLyBanHang
                         TenMH = txtNameIteam.Text,
                         GiaBan = double.Parse(txtGia.Text),
                         SoLuongTon = int.Parse(txtSoLuong.Text),
-                        SoLuongHienCo = int.Parse(txtSoLuong.Text), // Đồng bộ
+                        SoLuongHienCo = int.Parse(txtSoLuong.Text),
                         SoLuongDaBan = 0
                     };
 
                     db.MatHangs.Add(mh);
-                    db.SaveChanges(); // Lưu xuống SQL
+                    db.SaveChanges();
                     MessageBox.Show("Thêm thành công!");
-                    TaiDuLieuLenBang(); // Tải lại bảng
+                    TaiDuLieuLenBang();
                     ClearFields();
                 }
             }
             catch (Exception ex) { MessageBox.Show("Lỗi thêm hàng: " + ex.Message); }
         }
 
-        // 3. Sửa món hàng
         private void btnUpIteam_Click(object sender, EventArgs e)
         {
             try
@@ -91,7 +85,7 @@ namespace QuanLyBanHang
                         mh.TenMH = txtNameIteam.Text;
                         mh.GiaBan = double.Parse(txtGia.Text);
                         mh.SoLuongTon = int.Parse(txtSoLuong.Text);
-                        mh.SoLuongHienCo = mh.SoLuongTon; // Đồng bộ lại
+                        mh.SoLuongHienCo = mh.SoLuongTon;
 
                         db.SaveChanges();
                         MessageBox.Show("Cập nhật thành công!");
@@ -103,7 +97,6 @@ namespace QuanLyBanHang
             catch (Exception ex) { MessageBox.Show("Lỗi sửa hàng: " + ex.Message); }
         }
 
-        // 4. Xóa món hàng
         private void btnDeleteIteam_Click(object sender, EventArgs e)
         {
             try
@@ -125,7 +118,6 @@ namespace QuanLyBanHang
             catch (Exception ex) { MessageBox.Show("Lỗi xóa hàng (Có thể hàng đã bán nên không xóa được): " + ex.Message); }
         }
 
-        // Sự kiện click vào bảng đổ dữ liệu lên ô nhập
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -146,6 +138,10 @@ namespace QuanLyBanHang
         private void thoátToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void Form4_Load_1(object sender, EventArgs e)
+        {
         }
     }
 }

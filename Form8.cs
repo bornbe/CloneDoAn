@@ -11,126 +11,195 @@ namespace QuanLyBanHang
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.btnthemhangthanhtoan.Click += btnthemhangthanhtoan_Click;
-            this.btnhoantatthanhtoan.Click += btnhoantatthanhtoan_Click;
-            this.btnvetrangchinh.Click += (s, e) => this.Close();
+            this.Load += Form8_Load;
+            this.timer1.Tick += Timer1_Tick;
+        }
+        private void Form8_Load(object sender, EventArgs e)
+        {
+            timer1.Interval = 1000; 
+            timer1.Start();
+            if (SessionData.GioHang != null && SessionData.GioHang.Count > 0)
+            {
+                dataGridViewThanhtoan.Rows.Clear();
+                foreach (var item in SessionData.GioHang)
+                {
+                    dataGridViewThanhtoan.Rows.Add(
+                        item.MaMH,
+                        item.TenMH,
+                        item.SoLuong,
+                        item.DonGia,
+                        item.ThanhTien
+                    );
+                }
+                TinhTongTien();
+            }
         }
 
-        // 1. Thêm hàng vào giỏ (Grid trên Form 8) - Chưa lưu DB
-        private void btnthemhangthanhtoan_Click(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
-            string maMH = txtmonhangthanhtoan.Text;
-            int soLuongMua = int.Parse(txtsoluongthanhtoan.Text);
+            if (statusStrip1.Items.Count > 0)
+            {
+                statusStrip1.Items[0].Text = "Thời gian hiện tại: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+            }
+        }
 
+        private void btnthemhangthanhtoan_Click_1(object sender, EventArgs e)
+        {
+            txtmonhangthanhtoan.ReadOnly = false;
+            string maMH = txtmonhangthanhtoan.Text.Trim();
+            int soLuongMua;
+
+            if (string.IsNullOrEmpty(maMH))
+            {
+                MessageBox.Show("Vui lòng nhập mã hàng!");
+                return;
+            }
+            if (!int.TryParse(txtsoluongthanhtoan.Text, out soLuongMua) || soLuongMua <= 0)
+            {
+                MessageBox.Show("Số lượng phải là số nguyên lớn hơn 0!");
+                return;
+            }
+
+            foreach (DataGridViewRow row in dataGridViewThanhtoan.Rows)
+            {
+                if (!row.IsNewRow && row.Cells[0].Value != null && row.Cells[0].Value.ToString() == maMH)
+                {
+                    MessageBox.Show("Mã hàng này đã có trong giỏ! Vui lòng chọn dòng đó và nhấn nút 'Sửa' để cập nhật số lượng.");
+                    return;
+                }
+            }
             using (var db = new QuanLyBanHangContext())
             {
                 var mh = db.MatHangs.FirstOrDefault(m => m.MaMH == maMH);
                 if (mh != null)
                 {
-                    // Tính thành tiền
                     double thanhTien = soLuongMua * mh.GiaBan;
-                    // Thêm vào Grid hiển thị tạm
                     dataGridViewThanhtoan.Rows.Add(mh.MaMH, mh.TenMH, soLuongMua, mh.GiaBan, thanhTien);
-
-                    // Tính tổng tiền đơn hàng
                     TinhTongTien();
+                    ResetInput();
                 }
                 else
                 {
-                    MessageBox.Show("Không tìm thấy mã hàng này!");
+                    MessageBox.Show("Không tìm thấy mã hàng này trong kho!");
                 }
             }
         }
 
+        private void btnsuahangthanhtoan_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewThanhtoan.CurrentRow == null || dataGridViewThanhtoan.CurrentRow.IsNewRow)
+            {
+                MessageBox.Show("Vui lòng click chọn một dòng hàng trong bảng danh sách bên phải trước!");
+                return;
+            }
+
+            int soLuongMoi;
+            if (!int.TryParse(txtsoluongthanhtoan.Text, out soLuongMoi) || soLuongMoi <= 0)
+            {
+                MessageBox.Show("Số lượng sửa phải lớn hơn 0!");
+                return;
+            }
+
+            DataGridViewRow row = dataGridViewThanhtoan.CurrentRow;
+            double giaBan = double.Parse(row.Cells[3].Value.ToString());
+            row.Cells[2].Value = soLuongMoi;
+            row.Cells[4].Value = soLuongMoi * giaBan;
+
+            TinhTongTien();
+            MessageBox.Show("Đã cập nhật số lượng thành công!");
+            ResetInput();
+        }
+
+        private void btnxoahangthanhtoan_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewThanhtoan.CurrentRow == null || dataGridViewThanhtoan.CurrentRow.IsNewRow)
+            {
+                MessageBox.Show("Vui lòng chọn dòng cần xóa!");
+                return;
+            }
+
+            if (MessageBox.Show("Bạn chắc chắn muốn xóa khỏi giỏ?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                dataGridViewThanhtoan.Rows.Remove(dataGridViewThanhtoan.CurrentRow);
+                TinhTongTien();
+                ResetInput();
+            }
+        }
+        private void btnhoantatthanhtoan_Click(object sender, EventArgs e)
+        {
+            bool coHang = false;
+            foreach (DataGridViewRow r in dataGridViewThanhtoan.Rows)
+            {
+                if (!r.IsNewRow && r.Cells[0].Value != null)
+                {
+                    coHang = true;
+                    break;
+                }
+            }
+
+            if (!coHang)
+            {
+                MessageBox.Show("Giỏ hàng đang trống! Vui lòng thêm sản phẩm trước khi thanh toán.");
+                return;
+            }
+            SessionData.GioHang.Clear();
+
+            foreach (DataGridViewRow row in dataGridViewThanhtoan.Rows)
+            {
+                if (!row.IsNewRow && row.Cells[0].Value != null)
+                {
+                    SessionData.GioHang.Add(new CartItem()
+                    {
+                        MaMH = row.Cells[0].Value.ToString(),
+                        TenMH = row.Cells[1].Value.ToString(),
+                        SoLuong = int.Parse(row.Cells[2].Value.ToString()),
+                        DonGia = double.Parse(row.Cells[3].Value.ToString()),
+                        ThanhTien = double.Parse(row.Cells[4].Value.ToString())
+                    });
+                }
+            }
+            SessionData.TongTien = SessionData.GioHang.Sum(x => x.ThanhTien);
+            Form9 f9 = new Form9(this);
+            f9.Show();
+            this.Hide();
+        }
         private void TinhTongTien()
         {
             double tong = 0;
             foreach (DataGridViewRow row in dataGridViewThanhtoan.Rows)
             {
-                if (row.Cells[4].Value != null)
+                if (!row.IsNewRow && row.Cells[4].Value != null)
+                {
                     tong += double.Parse(row.Cells[4].Value.ToString());
+                }
             }
             txtTongGiathanhtoan.Text = tong.ToString("N0");
         }
 
-        // 2. Nút THANH TOÁN - Lưu DB và Trừ Kho
-        private void btnhoantatthanhtoan_Click(object sender, EventArgs e)
+        private void ResetInput()
         {
-            bool isEmpty = true;
-            foreach (DataGridViewRow row in dataGridViewThanhtoan.Rows)
+            txtmonhangthanhtoan.Text = "";
+            txtsoluongthanhtoan.Text = "0";
+            txtmonhangthanhtoan.ReadOnly = false;
+        }
+
+        private void btnvetrangchinh_Click(object sender, EventArgs e)
+        {
+            Form1 f1 = new Form1();
+            f1.Show();
+            this.Close();
+        }
+
+        private void dataGridViewThanhtoan_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && !dataGridViewThanhtoan.Rows[e.RowIndex].IsNewRow)
             {
-                if (!row.IsNewRow) // Nếu tìm thấy ít nhất 1 dòng không phải dòng trắng
+                DataGridViewRow row = dataGridViewThanhtoan.Rows[e.RowIndex];
+                if (row.Cells[0].Value != null)
                 {
-                    isEmpty = false;
-                    break;
-                }
-            }
-
-            if (isEmpty)
-            {
-                MessageBox.Show("Giỏ hàng đang trống! Vui lòng thêm sản phẩm trước khi thanh toán.",
-                                "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return; // Lệnh này sẽ dừng hàm ngay lập tức, không chạy code bên dưới
-            }
-
-
-            using (var db = new QuanLyBanHangContext())
-            {
-                using (var transaction = db.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        // A. Tạo Đơn Hàng mới
-                        DonHang donHang = new DonHang() { NgayBan = DateTime.Now };
-                        db.DonHangs.Add(donHang);
-                        db.SaveChanges();
-
-                        // B. Duyệt qua từng món trong giỏ hàng
-                        foreach (DataGridViewRow row in dataGridViewThanhtoan.Rows)
-                        {
-                            if (row.IsNewRow) continue;
-
-                            string maMH = row.Cells[0].Value.ToString();
-                            int slMua = int.Parse(row.Cells[2].Value.ToString());
-                            double thanhTien = double.Parse(row.Cells[4].Value.ToString());
-
-                            // C. Kiểm tra và Trừ Kho
-                            var khoHang = db.MatHangs.FirstOrDefault(m => m.MaMH == maMH);
-                            if (khoHang != null)
-                            {
-                                if (khoHang.SoLuongTon < slMua)
-                                {
-                                    throw new Exception($"Món {khoHang.TenMH} chỉ còn {khoHang.SoLuongTon}, không đủ bán {slMua}!");
-                                }
-
-                                khoHang.SoLuongTon -= slMua;
-                                khoHang.SoLuongHienCo = khoHang.SoLuongTon;
-                                khoHang.SoLuongDaBan += slMua;
-                            }
-
-                            // D. Tạo Chi Tiết Đơn Hàng
-                            ChiTietDonHang ct = new ChiTietDonHang()
-                            {
-                                MaDH = donHang.MaDH,
-                                MaMH = maMH,
-                                SoLuongMua = slMua,
-                                ThanhTien = thanhTien
-                            };
-                            db.ChiTietDonHangs.Add(ct);
-                        }
-
-                        db.SaveChanges();
-                        transaction.Commit();
-
-                        MessageBox.Show($"Thanh toán thành công! Mã Đơn Hàng: {donHang.MaDH}");
-                        dataGridViewThanhtoan.Rows.Clear();
-                        txtTongGiathanhtoan.Text = "0";
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        MessageBox.Show("Lỗi thanh toán: " + ex.Message);
-                    }
+                    txtmonhangthanhtoan.Text = row.Cells[0].Value.ToString();
+                    txtsoluongthanhtoan.Text = row.Cells[2].Value.ToString();
+                    txtmonhangthanhtoan.ReadOnly = true; 
                 }
             }
         }

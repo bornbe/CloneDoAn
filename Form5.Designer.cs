@@ -68,16 +68,15 @@
             this.liệtKêTheoSốLượngBánRaToolStripMenuItem,
             this.toolStripSeparator2,
             this.thoátToolStripMenuItem});
-            this.xemToolStripMenuItem.Image = global::QuanLyBanHang.Properties.Resources.images__2_;
             this.xemToolStripMenuItem.Name = "xemToolStripMenuItem";
-            this.xemToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
+            this.xemToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.xemToolStripMenuItem.Text = "Xem";
             // 
             // TSMIform5
             // 
             this.TSMIform5.Name = "TSMIform5";
             this.TSMIform5.Size = new System.Drawing.Size(277, 26);
-            this.TSMIform5.Text = "Liệt kê theo giá";
+            this.TSMIform5.Text = "Liệt kê theo mã đơn.";
             // 
             // toolStripSeparator1
             // 
@@ -97,7 +96,6 @@
             // 
             // thoátToolStripMenuItem
             // 
-            this.thoátToolStripMenuItem.Image = global::QuanLyBanHang.Properties.Resources.images1;
             this.thoátToolStripMenuItem.Name = "thoátToolStripMenuItem";
             this.thoátToolStripMenuItem.Size = new System.Drawing.Size(277, 26);
             this.thoátToolStripMenuItem.Text = "Thoát";
@@ -190,7 +188,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::QuanLyBanHang.Properties.Resources.tải_xuống1;
             this.ClientSize = new System.Drawing.Size(857, 687);
             this.Controls.Add(this.dgvCTBH);
             this.Controls.Add(this.dtpChonNgay);

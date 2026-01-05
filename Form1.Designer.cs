@@ -40,7 +40,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Navy;
-            this.label1.Image = global::QuanLyBanHang.Properties.Resources.images;
+  //          this.label1.Image = global::QuanLyBanHang.Properties.Resources.images;
             this.label1.Location = new System.Drawing.Point(230, 76);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(362, 46);
@@ -51,7 +51,7 @@
             // 
             this.btnQuanLy.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnQuanLy.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnQuanLy.Image = global::QuanLyBanHang.Properties.Resources.istockphoto_878320722_2048x2048;
+//            this.btnQuanLy.Image = global::QuanLyBanHang.Properties.Resources.istockphoto_878320722_2048x2048;
             this.btnQuanLy.Location = new System.Drawing.Point(225, 250);
             this.btnQuanLy.Name = "btnQuanLy";
             this.btnQuanLy.Size = new System.Drawing.Size(400, 50);
@@ -64,7 +64,7 @@
             // 
             this.bthThanhToan.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.bthThanhToan.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bthThanhToan.Image = global::QuanLyBanHang.Properties.Resources.istockphoto_878320722_2048x2048;
+//            this.bthThanhToan.Image = global::QuanLyBanHang.Properties.Resources.istockphoto_878320722_2048x2048;
             this.bthThanhToan.Location = new System.Drawing.Point(225, 165);
             this.bthThanhToan.Name = "bthThanhToan";
             this.bthThanhToan.Size = new System.Drawing.Size(400, 50);
@@ -78,7 +78,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Khaki;
-            this.BackgroundImage = global::QuanLyBanHang.Properties.Resources.hinh_nen_may_tinh_1;
+//            this.BackgroundImage = global::QuanLyBanHang.Properties.Resources.hinh_nen_may_tinh_1;
             this.ClientSize = new System.Drawing.Size(786, 450);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnQuanLy);

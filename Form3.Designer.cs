@@ -27,7 +27,6 @@
             // btnOut
             // 
             this.btnOut.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnOut.Image = global::QuanLyBanHang.Properties.Resources.istockphoto_878320722_2048x2048;
             this.btnOut.Location = new System.Drawing.Point(700, 300);
             this.btnOut.Name = "btnOut";
             this.btnOut.Size = new System.Drawing.Size(300, 70);
@@ -39,7 +38,7 @@
             // btnKKSL
             // 
             this.btnKKSL.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnKKSL.Image = global::QuanLyBanHang.Properties.Resources.istockphoto_878320722_2048x2048;
+            //this.btnKKSL.Image = global::QuanLyBanHang.Properties.Resources.istockphoto_878320722_2048x2048;
             this.btnKKSL.Location = new System.Drawing.Point(255, 300);
             this.btnKKSL.Name = "btnKKSL";
             this.btnKKSL.Size = new System.Drawing.Size(300, 70);
@@ -51,7 +50,7 @@
             // btnQLK
             // 
             this.btnQLK.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnQLK.Image = global::QuanLyBanHang.Properties.Resources.istockphoto_878320722_2048x2048;
+           // this.btnQLK.Image = global::QuanLyBanHang.Properties.Resources.istockphoto_878320722_2048x2048;
             this.btnQLK.Location = new System.Drawing.Point(700, 155);
             this.btnQLK.Name = "btnQLK";
             this.btnQLK.Size = new System.Drawing.Size(300, 70);
@@ -64,7 +63,7 @@
             // 
             this.btnAddItean.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnAddItean.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnAddItean.Image = global::QuanLyBanHang.Properties.Resources.istockphoto_878320722_2048x2048;
+//            this.btnAddItean.Image = global::QuanLyBanHang.Properties.Resources.istockphoto_878320722_2048x2048;
             this.btnAddItean.Location = new System.Drawing.Point(255, 155);
             this.btnAddItean.Name = "btnAddItean";
             this.btnAddItean.Size = new System.Drawing.Size(300, 70);

@@ -21,7 +21,6 @@ namespace QuanLyBanHang
             ReloadKhoHang();
         }
 
-        // Hàm public để Form khác có thể gọi update (nếu cần)
         public void ReloadKhoHang()
         {
             try
@@ -29,7 +28,6 @@ namespace QuanLyBanHang
                 dgvCTSLH.Rows.Clear();
                 using (var db = new QuanLyBanHangContext())
                 {
-                    // AsNoTracking giúp chạy nhanh hơn vì chỉ xem chứ không sửa
                     var kho = db.MatHangs.AsNoTracking().ToList();
 
                     foreach (var item in kho)
@@ -37,12 +35,11 @@ namespace QuanLyBanHang
                         int index = dgvCTSLH.Rows.Add(
                             item.MaMH,
                             item.TenMH,
-                            item.SoLuongTon,    // Số lượng còn lại
-                            item.SoLuongDaBan   // Số lượng đã bán
+                            item.SoLuongTon,
+                            item.SoLuongDaBan
                         );
 
-                        // --- LOGIC TÔ MÀU CẢNH BÁO ---
-                        if (item.SoLuongTon < 10) // Ví dụ: Dưới 10 là báo động
+                        if (item.SoLuongTon < 10)
                         {
                             dgvCTSLH.Rows[index].DefaultCellStyle.BackColor = Color.Pink;
                             dgvCTSLH.Rows[index].DefaultCellStyle.ForeColor = Color.Red;
@@ -54,6 +51,10 @@ namespace QuanLyBanHang
             {
                 MessageBox.Show("Lỗi tải kho: " + ex.Message);
             }
+        }
+
+        private void Form6_Load_1(object sender, EventArgs e)
+        {
         }
     }
 }

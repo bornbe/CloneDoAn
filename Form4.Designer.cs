@@ -55,7 +55,7 @@
             // gbAddIteam
             // 
             this.gbAddIteam.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.gbAddIteam.BackgroundImage = global::QuanLyBanHang.Properties.Resources.hinh_nen_may_tinh_1;
+//            this.gbAddIteam.BackgroundImage = global::QuanLyBanHang.Properties.Resources.hinh_nen_may_tinh_1;
             this.gbAddIteam.Controls.Add(this.txtSoLuong);
             this.gbAddIteam.Controls.Add(this.txtGia);
             this.gbAddIteam.Controls.Add(this.txtNameIteam);
@@ -264,7 +264,7 @@
             this.TSMIsapxep.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.danhSáchHàngĐãHếtToolStripMenuItem,
             this.thoátToolStripMenuItem});
-            this.TSMIsapxep.Image = global::QuanLyBanHang.Properties.Resources.images__2_;
+//            this.TSMIsapxep.Image = global::QuanLyBanHang.Properties.Resources.images__2_;
             this.TSMIsapxep.Name = "TSMIsapxep";
             this.TSMIsapxep.Size = new System.Drawing.Size(73, 24);
             this.TSMIsapxep.Text = "Xem";
@@ -277,7 +277,7 @@
             // 
             // thoátToolStripMenuItem
             // 
-            this.thoátToolStripMenuItem.Image = global::QuanLyBanHang.Properties.Resources.images1;
+//            this.thoátToolStripMenuItem.Image = global::QuanLyBanHang.Properties.Resources.images1;
             this.thoátToolStripMenuItem.Name = "thoátToolStripMenuItem";
             this.thoátToolStripMenuItem.Size = new System.Drawing.Size(247, 26);
             this.thoátToolStripMenuItem.Text = "Thoát";
@@ -287,7 +287,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::QuanLyBanHang.Properties.Resources.images__1_;
+//            this.BackgroundImage = global::QuanLyBanHang.Properties.Resources.images__1_;
             this.ClientSize = new System.Drawing.Size(1148, 678);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.dataGridView1);

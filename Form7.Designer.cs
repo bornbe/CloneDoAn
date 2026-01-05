@@ -75,7 +75,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::QuanLyBanHang.Properties.Resources.tải_xuống;
+//            this.BackgroundImage = global::QuanLyBanHang.Properties.Resources.tải_xuống;
             this.ClientSize = new System.Drawing.Size(850, 450);
             this.Controls.Add(this.btntrangchu);
             this.Controls.Add(this.btnThanhToan);
